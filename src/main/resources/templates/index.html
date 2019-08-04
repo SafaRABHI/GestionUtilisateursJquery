@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta "Content-Type:application/font-woff; charset=utf-8">
+    <link rel="stylesheet" href="/bootstrap-glyphicons.css">
+    <link rel="stylesheet" href="/bootstrap.min.css">
+    <link rel="stylesheet" href="/styles.css">
+    <script src="/jquery.js"></script>
+    <script src="/bootstrap.min.js"></script>
+    <script src="/index.js"></script>
+    <title>Spring Boot Application</title>
+</head>
+<body>
+    <div>
+        <h2>Gestion des utilisateurs</h2>
+    </div>
+    <div>
+        <div id="flip">Ajouter un nouvel utilisateur</div>
+        <div id="panelContainer">
+            <div id="panel">
+                <div class="container">
+                    <div class="myForm">
+                        <form action="#" th:action="@{/adduser}" th:object="${utitlisateur}" method="post">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label>
+                                        <B>Nom</B>
+                                    </label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" th:field="*{nom}" id="nom" value="" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label>
+                                        <B>Prenom</B>
+                                    </label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" th:field="*{prenom}" id="prenom" value="" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label>
+                                        <B>Email</B>
+                                    </label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" th:field="*{mail}" id="mail" value="" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label>
+                                        <B>Age</B>
+                                    </label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="number" class="form-control" th:field="*{age}" id="age" value="" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                </div>
+                                <div class="col-sm-6 text-left">
+                                    <button type="button" id="addUser" class="btn btn-success" on>Ajouter utilisateur</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="tabUsers">
+            <div id="listUsers">
+                <table class="table table-striped table-responsive-md table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Prenom</th>
+                            <th>Mail</th>
+                            <th>Age</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="user : ${users}">
+                            <td th:text="${user.nom}"></td>
+                            <td th:text="${user.prenom}"></td>
+                            <td th:text="${user.mail}"></td>
+                            <td th:text="${user.age}"></td>
+                            <td>
+                                <a th:onclick=" 'afficherInfoUtilisateur(\'' + ${user.id} + '\');' " class="btn btn-primary eBtn">
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                </a>
+                            </td>
+                            <td>
+                                <a th:onclick=" 'supprimerUtilisateur(\'' + ${user.id} + '\');' " class="btn btn-danger">
+                                    <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="myForm">
+        <form th:action="@{/adduser}" method="post">
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Update or Create</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="hidden" class="form-control" id="idEdit" />
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label>
+                                        <B>Nom</B>
+                                    </label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="nomEdit" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label>
+                                        <B>Prenom</B>
+                                    </label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="editPrenom" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label>
+                                        <B>Email</B>
+                                    </label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="editMail" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label>
+                                        <B>Age</B>
+                                    </label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="number" class="form-control" id="editAge" />
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <input type="button" class="btn btn-primary" id="saveEdit" value="save" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
